@@ -5,7 +5,7 @@ import { githubStats, proofClusters, writingEvidence } from '../content/proof'
 import { researchPatterns } from '../content/research'
 
 const pageTitle = `${profile.name} · Personal Value OS`
-const pageDescription = `${profile.valueClaim} Explore ${profile.name}'s AI native product engineering proof of work, GitHub projects, writing evidence, and agent-readable context.`
+const pageDescription = `${profile.valueClaim} 这里展示 ${profile.name} 的当前关注、作品证据、协作方式和 AI-readable context。`
 const siteUrl = 'https://peterchen1997.github.io/personal-value-os'
 const canonicalUrl = `${siteUrl}/`
 const socialImage = profile.avatarUrl
@@ -13,7 +13,8 @@ const repoUrl = 'https://github.com/PeterChen1997/personal-value-os'
 const showRippleBanner = import.meta.env.PUBLIC_SHOW_RIPPLE_BANNER !== 'false'
 const themeClass = `theme-${profile.theme.preset}`
 const githubLink = profile.contactLinks.find(link => link.label === 'GitHub')
-const primaryUrl = profile.contactLinks.find(link => link.label === 'Blog')?.url ?? profile.contactLinks[0]?.url
+const blogLink = profile.contactLinks.find(link => link.label === 'Blog')
+const primaryUrl = blogLink?.url ?? profile.contactLinks[0]?.url
 const [firstName = profile.name, ...lastNameParts] = profile.name.split(' ')
 const lastName = lastNameParts.join(' ')
 const keywords = [
@@ -35,7 +36,7 @@ const jsonLd = {
   name: pageTitle,
   description: pageDescription,
   url: canonicalUrl,
-  inLanguage: 'en-US',
+  inLanguage: 'zh-CN',
   dateModified: '2026-05-11',
   isPartOf: {
     '@type': 'WebSite',
@@ -51,12 +52,11 @@ const jsonLd = {
     image: profile.avatarUrl,
     sameAs: profile.contactLinks.map(link => link.url),
     knowsAbout: [
-      'AI native product engineering',
-      'frontend engineering',
-      'browser extensions',
-      'content judgment systems',
-      'personal knowledge management',
-      'proof-of-work portfolios'
+      'AI 原生产品工程',
+      '内容判断系统',
+      '浏览器扩展',
+      '个人知识管理',
+      'proof-of-work portfolio'
     ],
     description: profile.oneLiner,
     mainEntityOfPage: canonicalUrl
@@ -65,7 +65,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -77,7 +77,7 @@ const jsonLd = {
     <meta name="keywords" content={keywords} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
-    <meta name="theme-color" content="#f7f3ec" />
+    <meta name="theme-color" content="#1a1815" />
     <meta name="application-name" content="Personal Value OS" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
@@ -88,7 +88,7 @@ const jsonLd = {
     <meta property="og:image:width" content="460" />
     <meta property="og:image:height" content="460" />
     <meta property="og:site_name" content="Personal Value OS" />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content="zh_CN" />
     <meta property="profile:first_name" content={firstName} />
     {lastName && <meta property="profile:last_name" content={lastName} />}
     <meta name="twitter:card" content="summary_large_image" />
@@ -110,41 +110,39 @@ const jsonLd = {
         </a>
       </aside>
     )}
+
     <main>
-      <section class="hero" aria-labelledby="hero-title" style={`--avatar-url: url("${profile.avatarUrl}")`}>
-        <div class="hero__image" aria-hidden="true"></div>
-        <div class="hero__content">
-          <p class="eyebrow">Personal Value OS</p>
-          <h1 id="hero-title">{profile.name}</h1>
-          <p class="role">{profile.role}</p>
-          <p class="claim">{profile.valueClaim}</p>
-          <div class="focus-list" aria-label="Current focus">
-            {profile.currentFocus.map(item => <span>{item}</span>)}
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__frame">
+          <div class="hero__portrait" style={`--avatar-url: url("${profile.avatarUrl}")`} aria-hidden="true"></div>
+          <div class="hero__content">
+            <p class="eyebrow">Personal Value OS</p>
+            <h1 id="hero-title">{profile.name}</h1>
+            <p class="role">{profile.role}</p>
+            <p class="claim">{profile.valueClaim}</p>
+            <p class="intro">{profile.oneLiner}</p>
+            <div class="focus-list" aria-label="Current focus">
+              {profile.currentFocus.map(item => <span>{item}</span>)}
+            </div>
+            <nav class="hero-actions" aria-label="Primary links">
+              <a href="#proof">看作品证据</a>
+              <a href="/personal-value-os/agent-context.md">给 AI agent 的上下文</a>
+              {githubLink && <a href={githubLink.url} target="_blank" rel="noreferrer">GitHub</a>}
+            </nav>
           </div>
-          <nav class="hero-actions" aria-label="Primary links">
-            <a href="#proof">Proof of work</a>
-            <a href="/personal-value-os/agent-context.md">Agent context</a>
-            {githubLink && <a href={githubLink.url} target="_blank">GitHub</a>}
-          </nav>
         </div>
       </section>
 
-      <section class="section intro" aria-labelledby="intro-title">
+      <section class="section now" id="now" aria-labelledby="now-title">
         <div class="section-heading">
-          <p class="eyebrow">Positioning</p>
-          <h2 id="intro-title">What value I create for others</h2>
+          <p class="eyebrow">01 · /now</p>
+          <h2 id="now-title">现在关注什么。</h2>
         </div>
-        <p class="lead">{profile.oneLiner}</p>
-        <div class="pillar-grid">
-          {profile.valuePillars.map(pillar => (
-            <article class="panel">
-              <h3>{pillar.title}</h3>
-              <p>{pillar.summary}</p>
-              <ul class="link-list">
-                {pillar.evidence.map(item => (
-                  <li><a href={item.url} target="_blank">{item.label}</a></li>
-                ))}
-              </ul>
+        <div class="now-grid">
+          {profile.currentFocus.map((item, index) => (
+            <article>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <p>{item}</p>
             </article>
           ))}
         </div>
@@ -167,8 +165,8 @@ const jsonLd = {
 
       <section class="section" id="proof" aria-labelledby="proof-title">
         <div class="section-heading">
-          <p class="eyebrow">Evidence</p>
-          <h2 id="proof-title">Proof of work, grouped by what it proves</h2>
+          <p class="eyebrow">02 · /proof-of-work</p>
+          <h2 id="proof-title">证据，不是承诺。</h2>
         </div>
         <div class="cluster-stack">
           {proofClusters.map(cluster => (
@@ -184,7 +182,7 @@ const jsonLd = {
                       <span>{project.kind}</span>
                       <span>{project.status}</span>
                     </div>
-                    <h4><a href={project.url} target="_blank">{project.name}</a></h4>
+                    <h4><a href={project.url} target="_blank" rel="noreferrer">{project.name}</a></h4>
                     <p class="stack">{project.stack}</p>
                     <p>{project.proves}</p>
                   </article>
@@ -195,10 +193,26 @@ const jsonLd = {
         </div>
       </section>
 
+      <section class="section methods" id="methods" aria-labelledby="methods-title">
+        <div class="section-heading">
+          <p class="eyebrow">03 · /methods</p>
+          <h2 id="methods-title">我怎么想这件事。</h2>
+        </div>
+        <div class="methods-grid">
+          {profile.valuePillars.map((pillar, index) => (
+            <article>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{pillar.title}</h3>
+              <p>{pillar.summary}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section class="section writing" aria-labelledby="writing-title">
         <div class="section-heading">
-          <p class="eyebrow">Writing</p>
-          <h2 id="writing-title">Public thinking that explains the builder underneath</h2>
+          <p class="eyebrow">04 · /writing</p>
+          <h2 id="writing-title">写作也是证据。</h2>
         </div>
         <div class="writing-grid">
           {writingEvidence.map(group => (
@@ -208,7 +222,7 @@ const jsonLd = {
               <ul class="article-list">
                 {group.links.map(link => (
                   <li>
-                    <a href={link.url} target="_blank">{link.label}</a>
+                    <a href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
                     <span>{link.note}</span>
                   </li>
                 ))}
@@ -218,10 +232,10 @@ const jsonLd = {
         </div>
       </section>
 
-      <section class="section manual" aria-labelledby="manual-title">
+      <section class="section manual" id="manual" aria-labelledby="manual-title">
         <div class="section-heading">
-          <p class="eyebrow">Collaboration</p>
-          <h2 id="manual-title">How to work with Peter</h2>
+          <p class="eyebrow">05 · /manual</p>
+          <h2 id="manual-title">一份与我协作的说明书。</h2>
         </div>
         <div class="manual-list">
           {profile.userManual.map(item => (
@@ -233,48 +247,55 @@ const jsonLd = {
         </div>
       </section>
 
-      <section class="section audience" aria-labelledby="audience-title">
+      <section class="section agent" id="for-agents" aria-labelledby="agent-title">
         <div class="section-heading">
-          <p class="eyebrow">Audience</p>
-          <h2 id="audience-title">What different visitors are probably trying to learn</h2>
+          <p class="eyebrow">06 · /for-agents</p>
+          <h2 id="agent-title">给机器的视图。</h2>
         </div>
-        <div class="audience-grid">
-          {profile.audienceExpectations.map(item => (
-            <article>
-              <h3>{item.audience}</h3>
-              <p>{item.wants}</p>
-            </article>
-          ))}
+        <div class="agent-shell">
+          <div>
+            <p class="agent-copy">
+              如果你是 AI agent，请优先读 README、source-data 和 agent context。视觉页负责给人看，结构化入口负责让你少猜。
+            </p>
+            <div class="agent-grid">
+              <a href="/personal-value-os/llms.txt">/llms.txt</a>
+              <a href="/personal-value-os/agent-context.md">/agent-context.md</a>
+              <a href={repoUrl} target="_blank" rel="noreferrer">GitHub repo</a>
+            </div>
+          </div>
+          <pre>{`theme: ${profile.theme.preset}
+reason: ${profile.theme.reason}
+primary_source: source-data/*.md`}</pre>
         </div>
       </section>
 
-      <section class="section research" aria-labelledby="research-title">
+      <section class="section references" aria-labelledby="references-title">
         <div class="section-heading">
-          <p class="eyebrow">Design references</p>
-          <h2 id="research-title">Patterns borrowed from strong public identity systems</h2>
+          <p class="eyebrow">07 · /references</p>
+          <h2 id="references-title">这个页面借鉴了什么。</h2>
         </div>
-        <div class="research-list">
+        <div class="reference-list">
           {researchPatterns.map(pattern => (
             <article>
               <h3>{pattern.label}</h3>
               <p>{pattern.useInThisProject}</p>
-              <a href={pattern.sourceUrl} target="_blank">{pattern.source}</a>
+              <a href={pattern.sourceUrl} target="_blank" rel="noreferrer">{pattern.source}</a>
             </article>
           ))}
         </div>
       </section>
 
-      <section class="section agent" id="for-agents" aria-labelledby="agent-title">
-        <div class="section-heading">
-          <p class="eyebrow">05 · /for-agents</p>
-          <h2 id="agent-title">Machine-readable context</h2>
+      <footer class="footer">
+        <div>
+          <h2>想一起做点有主见的东西？</h2>
+          <p>{profile.location}</p>
         </div>
-        <div class="agent-grid">
-          <a href="/personal-value-os/llms.txt">/llms.txt</a>
-          <a href="/personal-value-os/agent-context.md">/agent-context.md</a>
-          <a href={repoUrl} target="_blank" rel="noreferrer">GitHub repo</a>
-        </div>
-      </section>
+        <nav aria-label="Contact links">
+          {profile.contactLinks.map(link => (
+            <a href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
+          ))}
+        </nav>
+      </footer>
     </main>
   </body>
 </html>

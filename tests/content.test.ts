@@ -83,8 +83,9 @@ describe('personal value content', () => {
 
   it('ships a human landing page with machine-readable profile schema', () => {
     const page = readFileSync(join(process.cwd(), 'src/pages/index.astro'), 'utf8')
-    expect(page).toContain('Proof of work')
-    expect(page).toContain('How to work with Peter')
+    expect(page).toContain('证据，不是承诺')
+    expect(page).toContain('一份与我协作的说明书')
+    expect(page).toContain('给机器的视图')
     expect(page).toContain('showRippleBanner')
     expect(page).toContain('PUBLIC_SHOW_RIPPLE_BANNER')
     expect(page).toContain('theme-${profile.theme.preset}')
@@ -153,7 +154,7 @@ describe('personal value content', () => {
     const page = readFileSync(join(process.cwd(), 'src/pages/index.astro'), 'utf8')
     expect(page).toContain('property="og:title"')
     expect(page).toContain('property="og:type" content="profile"')
-    expect(page).toContain('<html lang="en">')
+    expect(page).toContain('<html lang="zh-CN">')
     expect(page).toContain('name="twitter:card" content="summary_large_image"')
     expect(page).toContain('property="og:image:width"')
     expect(page).toContain('name="robots"')
