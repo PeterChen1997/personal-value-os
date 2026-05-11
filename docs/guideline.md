@@ -134,6 +134,18 @@ Keep these generated routes aligned by updating `source-data/`, not by editing g
 
 AI agents should not need to scrape the visual page to understand who you are.
 
+## Theme Presets
+
+每个用户都应该有一个稳定主题色，而不是所有页面共用同一种颜色。AI agent 应根据角色、受众、证据和公开气质选择 `source-data/profile.md` 里的 `theme.preset`，并写清楚 `theme.reason`。
+
+Recommended presets:
+
+- `signal-amber`: builder, editorial, proof-of-work, warm signal.
+- `forest-mint`: research, systems, health, care, long-term practice.
+- `cobalt-blue`: infrastructure, engineering leadership, security, reliability.
+- `rose-clay`: community, writing, coaching, reflective creative work.
+- `violet-ink`: AI, strategy, knowledge systems, speculative thinking.
+
 ## Content Quality Bar
 
 Before publishing, check:

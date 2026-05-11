@@ -12,6 +12,12 @@ Prefer these sources, in order:
 4. Private notes only when the owner explicitly grants access.
 5. Direct user clarification.
 
+## Intake Before Editing
+
+Before editing, ask intake questions for role, short bio, primary audience, desired outcome, Blog URL, GitHub URL, proof sources, must-include artifacts, contact links, collaboration boundaries, preferred theme vibe, and private information boundaries.
+
+Choose a `theme preset` after evidence mining. Write the preset and reason into `source-data/profile.md`.
+
 ## Source-Of-Truth Rule
 
 Store every extracted useful fact as Markdown text in `source-data/`. The app parses the fenced `json data` block in each Markdown file; the surrounding prose is for humans and future agents.

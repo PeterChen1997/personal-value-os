@@ -70,6 +70,7 @@ describe('personal value content', () => {
     expect(guideline).toContain('primary audience')
     expect(guideline).toContain('source-data/')
     expect(guideline).toContain('only source of truth')
+    expect(guideline).toContain('Theme Presets')
 
     const miningSkill = join(root, 'skills/personal-value-mining/SKILL.md')
     const refreshSkill = join(root, 'skills/landing-page-refresh/SKILL.md')
@@ -124,8 +125,16 @@ describe('personal value content', () => {
     const agentWorkflow = readFileSync(join(process.cwd(), 'docs/agent-workflow.md'), 'utf8')
     expect(readme).toContain('source-data/')
     expect(readme).toContain('only data source')
+    expect(readme).toContain('AI agent 应该先问什么')
+    expect(readme).toContain('PUBLIC_SHOW_RIPPLE_BANNER=false')
+    expect(readme).toContain('主题色')
+    expect(readme).toContain('GitHub URL')
+    expect(readme).toContain('Blog URL')
+    expect(readme).toContain('不要直接复制 Peter')
     expect(agentWorkflow).toContain('Source-Of-Truth Rule')
     expect(agentWorkflow).toContain('source-data/*.md')
+    expect(agentWorkflow).toContain('intake')
+    expect(agentWorkflow).toContain('theme preset')
   })
 
   it('ships strong SEO and crawl entrypoints', () => {
