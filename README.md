@@ -111,3 +111,5 @@ The project is a static Astro site. Any static host works:
 - Cloudflare Pages
 
 For GitHub Pages, keep `astro.config.mjs` `base` aligned with the repo name.
+
+This repo includes a GitHub Actions workflow that checks, tests, builds, and deploys `dist/` to GitHub Pages on `main` pushes.
