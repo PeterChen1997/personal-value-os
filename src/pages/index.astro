@@ -1,0 +1,257 @@
+---
+import '../styles/global.css'
+import { profile } from '../content/profile'
+import { githubStats, proofClusters, writingEvidence } from '../content/proof'
+import { researchPatterns } from '../content/research'
+
+const pageTitle = `${profile.name} · Personal Value OS`
+const pageDescription = `${profile.valueClaim} Explore ${profile.name}'s AI native product engineering proof of work, GitHub projects, writing evidence, and agent-readable context.`
+const siteUrl = 'https://peterchen1997.github.io/personal-value-os'
+const canonicalUrl = `${siteUrl}/`
+const socialImage = profile.avatarUrl
+const githubLink = profile.contactLinks.find(link => link.label === 'GitHub')
+const primaryUrl = profile.contactLinks.find(link => link.label === 'Blog')?.url ?? profile.contactLinks[0]?.url
+const [firstName = profile.name, ...lastNameParts] = profile.name.split(' ')
+const lastName = lastNameParts.join(' ')
+const keywords = [
+  profile.name,
+  profile.handle,
+  profile.role,
+  ...profile.secondaryRoles,
+  'AI native builder',
+  'product engineering',
+  'proof of work',
+  'personal value landing page',
+  'llms.txt',
+  'GitHub portfolio',
+  'content judgment systems'
+].join(', ')
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  name: pageTitle,
+  description: pageDescription,
+  url: canonicalUrl,
+  inLanguage: 'en-US',
+  dateModified: '2026-05-11',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Personal Value OS',
+    url: siteUrl
+  },
+  mainEntity: {
+    '@type': 'Person',
+    name: profile.name,
+    alternateName: profile.handle,
+    jobTitle: profile.role,
+    url: primaryUrl,
+    image: profile.avatarUrl,
+    sameAs: profile.contactLinks.map(link => link.url),
+    knowsAbout: [
+      'AI native product engineering',
+      'frontend engineering',
+      'browser extensions',
+      'content judgment systems',
+      'personal knowledge management',
+      'proof-of-work portfolios'
+    ],
+    description: profile.oneLiner,
+    mainEntityOfPage: canonicalUrl
+  }
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="author" content={profile.name} />
+    <meta name="creator" content={profile.name} />
+    <meta name="publisher" content={profile.name} />
+    <meta name="keywords" content={keywords} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="theme-color" content="#f7f3ec" />
+    <meta name="application-name" content="Personal Value OS" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={`${profile.name} avatar`} />
+    <meta property="og:image:width" content="460" />
+    <meta property="og:image:height" content="460" />
+    <meta property="og:site_name" content="Personal Value OS" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="profile:first_name" content={firstName} />
+    {lastName && <meta property="profile:last_name" content={lastName} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={socialImage} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="text/markdown" href="/personal-value-os/agent-context.md" title="Agent context" />
+    <link rel="alternate" type="text/plain" href="/personal-value-os/llms.txt" title="llms.txt" />
+    {profile.contactLinks.map(link => <link rel="me" href={link.url} />)}
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <main>
+      <section class="hero" aria-labelledby="hero-title" style={`--avatar-url: url("${profile.avatarUrl}")`}>
+        <div class="hero__image" aria-hidden="true"></div>
+        <div class="hero__content">
+          <p class="eyebrow">Personal Value OS</p>
+          <h1 id="hero-title">{profile.name}</h1>
+          <p class="role">{profile.role}</p>
+          <p class="claim">{profile.valueClaim}</p>
+          <div class="focus-list" aria-label="Current focus">
+            {profile.currentFocus.map(item => <span>{item}</span>)}
+          </div>
+          <nav class="hero-actions" aria-label="Primary links">
+            <a href="#proof">Proof of work</a>
+            <a href="/personal-value-os/agent-context.md">Agent context</a>
+            {githubLink && <a href={githubLink.url} target="_blank">GitHub</a>}
+          </nav>
+        </div>
+      </section>
+
+      <section class="section intro" aria-labelledby="intro-title">
+        <div class="section-heading">
+          <p class="eyebrow">Positioning</p>
+          <h2 id="intro-title">What value I create for others</h2>
+        </div>
+        <p class="lead">{profile.oneLiner}</p>
+        <div class="pillar-grid">
+          {profile.valuePillars.map(pillar => (
+            <article class="panel">
+              <h3>{pillar.title}</h3>
+              <p>{pillar.summary}</p>
+              <ul class="link-list">
+                {pillar.evidence.map(item => (
+                  <li><a href={item.url} target="_blank">{item.label}</a></li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="section stats-band" aria-label="GitHub evidence summary">
+        <div>
+          <strong>{githubStats.publicRepos}</strong>
+          <span>public repos reviewed</span>
+        </div>
+        <div>
+          <strong>{githubStats.activeOriginalRepos}</strong>
+          <span>active original repos</span>
+        </div>
+        <div>
+          <strong>{githubStats.dominantLanguages.slice(0, 5).join(' / ')}</strong>
+          <span>dominant public stack</span>
+        </div>
+      </section>
+
+      <section class="section" id="proof" aria-labelledby="proof-title">
+        <div class="section-heading">
+          <p class="eyebrow">Evidence</p>
+          <h2 id="proof-title">Proof of work, grouped by what it proves</h2>
+        </div>
+        <div class="cluster-stack">
+          {proofClusters.map(cluster => (
+            <section class="cluster" aria-labelledby={`${cluster.title}-title`}>
+              <div class="cluster-heading">
+                <h3 id={`${cluster.title}-title`}>{cluster.title}</h3>
+                <p>{cluster.angle}</p>
+              </div>
+              <div class="project-grid">
+                {cluster.projects.map(project => (
+                  <article class="project">
+                    <div class="project-meta">
+                      <span>{project.kind}</span>
+                      <span>{project.status}</span>
+                    </div>
+                    <h4><a href={project.url} target="_blank">{project.name}</a></h4>
+                    <p class="stack">{project.stack}</p>
+                    <p>{project.proves}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </section>
+
+      <section class="section writing" aria-labelledby="writing-title">
+        <div class="section-heading">
+          <p class="eyebrow">Writing</p>
+          <h2 id="writing-title">Public thinking that explains the builder underneath</h2>
+        </div>
+        <div class="writing-grid">
+          {writingEvidence.map(group => (
+            <article class="panel">
+              <h3>{group.title}</h3>
+              <p>{group.angle}</p>
+              <ul class="article-list">
+                {group.links.map(link => (
+                  <li>
+                    <a href={link.url} target="_blank">{link.label}</a>
+                    <span>{link.note}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="section manual" aria-labelledby="manual-title">
+        <div class="section-heading">
+          <p class="eyebrow">Collaboration</p>
+          <h2 id="manual-title">How to work with Peter</h2>
+        </div>
+        <div class="manual-list">
+          {profile.userManual.map(item => (
+            <article>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="section audience" aria-labelledby="audience-title">
+        <div class="section-heading">
+          <p class="eyebrow">Audience</p>
+          <h2 id="audience-title">What different visitors are probably trying to learn</h2>
+        </div>
+        <div class="audience-grid">
+          {profile.audienceExpectations.map(item => (
+            <article>
+              <h3>{item.audience}</h3>
+              <p>{item.wants}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="section research" aria-labelledby="research-title">
+        <div class="section-heading">
+          <p class="eyebrow">Design references</p>
+          <h2 id="research-title">Patterns borrowed from strong public identity systems</h2>
+        </div>
+        <div class="research-list">
+          {researchPatterns.map(pattern => (
+            <article>
+              <h3>{pattern.label}</h3>
+              <p>{pattern.useInThisProject}</p>
+              <a href={pattern.sourceUrl} target="_blank">{pattern.source}</a>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
