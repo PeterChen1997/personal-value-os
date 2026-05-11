@@ -1,11 +1,13 @@
 ---
 import '../styles/global.css'
 import { profile } from '../content/profile'
+import { pageCopy } from '../content/page-copy'
 import { githubStats, proofClusters, writingEvidence } from '../content/proof'
 import { researchPatterns } from '../content/research'
 
+const copy = pageCopy
 const pageTitle = `${profile.name} · Personal Value OS`
-const pageDescription = `${profile.valueClaim} 这里展示 ${profile.name} 的当前关注、作品证据、协作方式和 AI-readable context。`
+const pageDescription = `${copy.profile.valueClaim.zh} 这里展示 ${profile.name} 的当前关注、作品证据、协作方式和 AI-readable context。`
 const siteUrl = 'https://peterchen1997.github.io/personal-value-os'
 const canonicalUrl = `${siteUrl}/`
 const socialImage = profile.avatarUrl
@@ -58,10 +60,11 @@ const jsonLd = {
       '个人知识管理',
       'proof-of-work portfolio'
     ],
-    description: profile.oneLiner,
+    description: copy.profile.oneLiner.zh,
     mainEntityOfPage: canonicalUrl
   }
 }
+const jsonForInlineScript = JSON.stringify(copy).replace(/</g, '\\u003c')
 ---
 
 <!doctype html>
@@ -105,44 +108,83 @@ const jsonLd = {
     {showRippleBanner && (
       <aside class="ripple-banner" aria-label="Open source repository">
         <a href={repoUrl} target="_blank" rel="noreferrer">
-          <span>Ripple open source</span>
-          <strong>Fork Personal Value OS</strong>
+          <span data-i18n="ui.ripplePrefix">{copy.ui.ripplePrefix.zh}</span>
+          <strong data-i18n="ui.rippleCta">{copy.ui.rippleCta.zh}</strong>
         </a>
       </aside>
     )}
 
-    <main>
+    <header class="topbar">
+      <a class="topbar__brand" href="#top">Personal Value OS</a>
+      <nav class="topbar__nav" aria-label="Page sections">
+        <a href="#now" data-i18n="ui.navNow">{copy.ui.navNow.zh}</a>
+        <a href="#proof" data-i18n="ui.navProof">{copy.ui.navProof.zh}</a>
+        <a href="#manual" data-i18n="ui.navManual">{copy.ui.navManual.zh}</a>
+        <a href="#for-agents" data-i18n="ui.navAgent">{copy.ui.navAgent.zh}</a>
+      </nav>
+      <form class="language-switch" aria-label="Language switch">
+        <label for="lang-zh">
+          <input id="lang-zh" type="radio" name="language" value="zh" data-lang-control checked />
+          <span>中文</span>
+        </label>
+        <label for="lang-en">
+          <input id="lang-en" type="radio" name="language" value="en" data-lang-control />
+          <span>EN</span>
+        </label>
+      </form>
+    </header>
+
+    <main id="top">
       <section class="hero" aria-labelledby="hero-title">
-        <div class="hero__frame">
-          <div class="hero__portrait" style={`--avatar-url: url("${profile.avatarUrl}")`} aria-hidden="true"></div>
-          <div class="hero__content">
-            <p class="eyebrow">Personal Value OS</p>
+        <div class="hero__shell">
+          <span class="hero__mark" aria-hidden="true"></span>
+          <div class="hero__copy">
+            <p class="eyebrow" data-i18n="ui.heroEyebrow">{copy.ui.heroEyebrow.zh}</p>
             <h1 id="hero-title">{profile.name}</h1>
-            <p class="role">{profile.role}</p>
-            <p class="claim">{profile.valueClaim}</p>
-            <p class="intro">{profile.oneLiner}</p>
+            <p class="role" data-i18n="profile.role">{copy.profile.role.zh}</p>
+            <p class="claim" data-i18n="profile.valueClaim">{copy.profile.valueClaim.zh}</p>
+            <div class="hero__rule" aria-hidden="true"></div>
+            <p class="intro" data-i18n="profile.oneLiner">{copy.profile.oneLiner.zh}</p>
             <div class="focus-list" aria-label="Current focus">
-              {profile.currentFocus.map(item => <span>{item}</span>)}
+              {profile.currentFocus.map((_, index) => (
+                <span data-i18n={`profile.currentFocus.${index}`}>{copy.profile.currentFocus[index]?.zh}</span>
+              ))}
             </div>
             <nav class="hero-actions" aria-label="Primary links">
-              <a href="#proof">看作品证据</a>
-              <a href="/personal-value-os/agent-context.md">给 AI agent 的上下文</a>
+              <a href="#proof" data-i18n="ui.primaryAction">{copy.ui.primaryAction.zh}</a>
+              <a href="/personal-value-os/agent-context.md" data-i18n="ui.agentAction">{copy.ui.agentAction.zh}</a>
               {githubLink && <a href={githubLink.url} target="_blank" rel="noreferrer">GitHub</a>}
             </nav>
           </div>
+          <aside class="hero__index" aria-label="Profile index">
+            <dl>
+              <div>
+                <dt data-i18n="ui.publicRepos">{copy.ui.publicRepos.zh}</dt>
+                <dd>{githubStats.publicRepos}</dd>
+              </div>
+              <div>
+                <dt data-i18n="ui.activeRepos">{copy.ui.activeRepos.zh}</dt>
+                <dd>{githubStats.activeOriginalRepos}</dd>
+              </div>
+              <div>
+                <dt data-i18n="ui.themeLabel">{copy.ui.themeLabel.zh}</dt>
+                <dd>{profile.theme.preset}</dd>
+              </div>
+            </dl>
+          </aside>
         </div>
       </section>
 
       <section class="section now" id="now" aria-labelledby="now-title">
         <div class="section-heading">
-          <p class="eyebrow">01 · /now</p>
-          <h2 id="now-title">现在关注什么。</h2>
+          <p class="eyebrow" data-i18n="ui.nowKicker">{copy.ui.nowKicker.zh}</p>
+          <h2 id="now-title" data-i18n="ui.nowTitle">{copy.ui.nowTitle.zh}</h2>
         </div>
         <div class="now-grid">
-          {profile.currentFocus.map((item, index) => (
+          {profile.currentFocus.map((_, index) => (
             <article>
               <span>{String(index + 1).padStart(2, '0')}</span>
-              <p>{item}</p>
+              <p data-i18n={`profile.currentFocus.${index}`}>{copy.profile.currentFocus[index]?.zh}</p>
             </article>
           ))}
         </div>
@@ -151,40 +193,52 @@ const jsonLd = {
       <section class="section stats-band" aria-label="GitHub evidence summary">
         <div>
           <strong>{githubStats.publicRepos}</strong>
-          <span>public repos reviewed</span>
+          <span data-i18n="ui.publicRepos">{copy.ui.publicRepos.zh}</span>
         </div>
         <div>
           <strong>{githubStats.activeOriginalRepos}</strong>
-          <span>active original repos</span>
+          <span data-i18n="ui.activeRepos">{copy.ui.activeRepos.zh}</span>
         </div>
         <div>
           <strong>{githubStats.dominantLanguages.slice(0, 5).join(' / ')}</strong>
-          <span>dominant public stack</span>
+          <span data-i18n="ui.dominantStack">{copy.ui.dominantStack.zh}</span>
         </div>
       </section>
 
       <section class="section" id="proof" aria-labelledby="proof-title">
         <div class="section-heading">
-          <p class="eyebrow">02 · /proof-of-work</p>
-          <h2 id="proof-title">证据，不是承诺。</h2>
+          <p class="eyebrow" data-i18n="ui.proofKicker">{copy.ui.proofKicker.zh}</p>
+          <h2 id="proof-title" data-i18n="ui.proofTitle">{copy.ui.proofTitle.zh}</h2>
         </div>
         <div class="cluster-stack">
-          {proofClusters.map(cluster => (
+          {proofClusters.map((cluster, clusterIndex) => (
             <section class="cluster" aria-labelledby={`${cluster.title}-title`}>
               <div class="cluster-heading">
-                <h3 id={`${cluster.title}-title`}>{cluster.title}</h3>
-                <p>{cluster.angle}</p>
+                <h3 id={`${cluster.title}-title`} data-i18n={`proofClusters.${clusterIndex}.title`}>
+                  {copy.proofClusters[clusterIndex]?.title.zh ?? cluster.title}
+                </h3>
+                <p data-i18n={`proofClusters.${clusterIndex}.angle`}>
+                  {copy.proofClusters[clusterIndex]?.angle.zh ?? cluster.angle}
+                </p>
               </div>
               <div class="project-grid">
-                {cluster.projects.map(project => (
+                {cluster.projects.map((project, projectIndex) => (
                   <article class="project">
                     <div class="project-meta">
-                      <span>{project.kind}</span>
-                      <span>{project.status}</span>
+                      <span data-i18n={`proofClusters.${clusterIndex}.projects.${projectIndex}.kind`}>
+                        {copy.proofClusters[clusterIndex]?.projects[projectIndex]?.kind.zh ?? project.kind}
+                      </span>
+                      <span data-i18n={`proofClusters.${clusterIndex}.projects.${projectIndex}.status`}>
+                        {copy.proofClusters[clusterIndex]?.projects[projectIndex]?.status.zh ?? project.status}
+                      </span>
                     </div>
                     <h4><a href={project.url} target="_blank" rel="noreferrer">{project.name}</a></h4>
-                    <p class="stack">{project.stack}</p>
-                    <p>{project.proves}</p>
+                    <p class="stack" data-i18n={`proofClusters.${clusterIndex}.projects.${projectIndex}.stack`}>
+                      {copy.proofClusters[clusterIndex]?.projects[projectIndex]?.stack.zh ?? project.stack}
+                    </p>
+                    <p data-i18n={`proofClusters.${clusterIndex}.projects.${projectIndex}.proves`}>
+                      {copy.proofClusters[clusterIndex]?.projects[projectIndex]?.proves.zh ?? project.proves}
+                    </p>
                   </article>
                 ))}
               </div>
@@ -195,15 +249,15 @@ const jsonLd = {
 
       <section class="section methods" id="methods" aria-labelledby="methods-title">
         <div class="section-heading">
-          <p class="eyebrow">03 · /methods</p>
-          <h2 id="methods-title">我怎么想这件事。</h2>
+          <p class="eyebrow" data-i18n="ui.methodsKicker">{copy.ui.methodsKicker.zh}</p>
+          <h2 id="methods-title" data-i18n="ui.methodsTitle">{copy.ui.methodsTitle.zh}</h2>
         </div>
         <div class="methods-grid">
-          {profile.valuePillars.map((pillar, index) => (
+          {profile.valuePillars.map((_, index) => (
             <article>
               <span>{String(index + 1).padStart(2, '0')}</span>
-              <h3>{pillar.title}</h3>
-              <p>{pillar.summary}</p>
+              <h3 data-i18n={`valuePillars.${index}.title`}>{copy.valuePillars[index]?.title.zh}</h3>
+              <p data-i18n={`valuePillars.${index}.summary`}>{copy.valuePillars[index]?.summary.zh}</p>
             </article>
           ))}
         </div>
@@ -211,19 +265,23 @@ const jsonLd = {
 
       <section class="section writing" aria-labelledby="writing-title">
         <div class="section-heading">
-          <p class="eyebrow">04 · /writing</p>
-          <h2 id="writing-title">写作也是证据。</h2>
+          <p class="eyebrow" data-i18n="ui.writingKicker">{copy.ui.writingKicker.zh}</p>
+          <h2 id="writing-title" data-i18n="ui.writingTitle">{copy.ui.writingTitle.zh}</h2>
         </div>
         <div class="writing-grid">
-          {writingEvidence.map(group => (
+          {writingEvidence.map((group, groupIndex) => (
             <article class="panel">
-              <h3>{group.title}</h3>
-              <p>{group.angle}</p>
+              <h3 data-i18n={`writingEvidence.${groupIndex}.title`}>{copy.writingEvidence[groupIndex]?.title.zh ?? group.title}</h3>
+              <p data-i18n={`writingEvidence.${groupIndex}.angle`}>{copy.writingEvidence[groupIndex]?.angle.zh ?? group.angle}</p>
               <ul class="article-list">
-                {group.links.map(link => (
+                {group.links.map((link, linkIndex) => (
                   <li>
-                    <a href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
-                    <span>{link.note}</span>
+                    <a href={link.url} target="_blank" rel="noreferrer" data-i18n={`writingEvidence.${groupIndex}.links.${linkIndex}.label`}>
+                      {copy.writingEvidence[groupIndex]?.links[linkIndex]?.label.zh ?? link.label}
+                    </a>
+                    <span data-i18n={`writingEvidence.${groupIndex}.links.${linkIndex}.note`}>
+                      {copy.writingEvidence[groupIndex]?.links[linkIndex]?.note.zh ?? link.note}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -234,14 +292,14 @@ const jsonLd = {
 
       <section class="section manual" id="manual" aria-labelledby="manual-title">
         <div class="section-heading">
-          <p class="eyebrow">05 · /manual</p>
-          <h2 id="manual-title">一份与我协作的说明书。</h2>
+          <p class="eyebrow" data-i18n="ui.manualKicker">{copy.ui.manualKicker.zh}</p>
+          <h2 id="manual-title" data-i18n="ui.manualTitle">{copy.ui.manualTitle.zh}</h2>
         </div>
         <div class="manual-list">
-          {profile.userManual.map(item => (
+          {profile.userManual.map((_, index) => (
             <article>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
+              <h3 data-i18n={`userManual.${index}.title`}>{copy.userManual[index]?.title.zh}</h3>
+              <p data-i18n={`userManual.${index}.body`}>{copy.userManual[index]?.body.zh}</p>
             </article>
           ))}
         </div>
@@ -249,36 +307,36 @@ const jsonLd = {
 
       <section class="section agent" id="for-agents" aria-labelledby="agent-title">
         <div class="section-heading">
-          <p class="eyebrow">06 · /for-agents</p>
-          <h2 id="agent-title">给机器的视图。</h2>
+          <p class="eyebrow" data-i18n="ui.agentKicker">{copy.ui.agentKicker.zh}</p>
+          <h2 id="agent-title" data-i18n="ui.agentTitle">{copy.ui.agentTitle.zh}</h2>
         </div>
         <div class="agent-shell">
           <div>
-            <p class="agent-copy">
-              如果你是 AI agent，请优先读 README、source-data 和 agent context。视觉页负责给人看，结构化入口负责让你少猜。
-            </p>
+            <p class="agent-copy" data-i18n="ui.agentCopy">{copy.ui.agentCopy.zh}</p>
             <div class="agent-grid">
               <a href="/personal-value-os/llms.txt">/llms.txt</a>
               <a href="/personal-value-os/agent-context.md">/agent-context.md</a>
               <a href={repoUrl} target="_blank" rel="noreferrer">GitHub repo</a>
             </div>
           </div>
-          <pre>{`theme: ${profile.theme.preset}
-reason: ${profile.theme.reason}
-primary_source: source-data/*.md`}</pre>
+          <pre><span data-i18n="ui.themeLabel">{copy.ui.themeLabel.zh}</span>: {profile.theme.preset}
+<span data-i18n="ui.themeReason">{copy.ui.themeReason.zh}</span>: <span data-i18n="theme.reason">{copy.theme.reason.zh}</span>
+<span data-i18n="ui.sourceLabel">{copy.ui.sourceLabel.zh}</span>: source-data/*.md</pre>
         </div>
       </section>
 
       <section class="section references" aria-labelledby="references-title">
         <div class="section-heading">
-          <p class="eyebrow">07 · /references</p>
-          <h2 id="references-title">这个页面借鉴了什么。</h2>
+          <p class="eyebrow" data-i18n="ui.referencesKicker">{copy.ui.referencesKicker.zh}</p>
+          <h2 id="references-title" data-i18n="ui.referencesTitle">{copy.ui.referencesTitle.zh}</h2>
         </div>
         <div class="reference-list">
-          {researchPatterns.map(pattern => (
+          {researchPatterns.map((pattern, index) => (
             <article>
-              <h3>{pattern.label}</h3>
-              <p>{pattern.useInThisProject}</p>
+              <h3 data-i18n={`researchPatterns.${index}.label`}>{copy.researchPatterns[index]?.label.zh ?? pattern.label}</h3>
+              <p data-i18n={`researchPatterns.${index}.useInThisProject`}>
+                {copy.researchPatterns[index]?.useInThisProject.zh ?? pattern.useInThisProject}
+              </p>
               <a href={pattern.sourceUrl} target="_blank" rel="noreferrer">{pattern.source}</a>
             </article>
           ))}
@@ -287,8 +345,8 @@ primary_source: source-data/*.md`}</pre>
 
       <footer class="footer">
         <div>
-          <h2>想一起做点有主见的东西？</h2>
-          <p>{profile.location}</p>
+          <h2 data-i18n="ui.footerTitle">{copy.ui.footerTitle.zh}</h2>
+          <p data-i18n="ui.location">{copy.ui.location.zh}</p>
         </div>
         <nav aria-label="Contact links">
           {profile.contactLinks.map(link => (
@@ -297,5 +355,35 @@ primary_source: source-data/*.md`}</pre>
         </nav>
       </footer>
     </main>
+
+    <script is:inline id="page-copy-json" type="application/json" set:html={jsonForInlineScript}></script>
+    <script is:inline>
+      const copyNode = document.getElementById('page-copy-json');
+      const pageCopy = copyNode ? JSON.parse(copyNode.textContent || '{}') : {};
+      const getValue = (path) => path.split('.').reduce((value, key) => value?.[key], pageCopy);
+      const applyLanguage = (language) => {
+        const lang = language === 'en' ? 'en' : 'zh';
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        document.querySelectorAll('[data-lang-control]').forEach((control) => {
+          const isActive = control.value === lang;
+          control.checked = isActive;
+          if (isActive) {
+            control.setAttribute('checked', 'checked');
+          } else {
+            control.removeAttribute('checked');
+          }
+        });
+        document.querySelectorAll('[data-i18n]').forEach((node) => {
+          const value = getValue(node.getAttribute('data-i18n'));
+          if (value && typeof value[lang] === 'string') node.textContent = value[lang];
+        });
+      };
+
+      document.querySelectorAll('[data-lang-control]').forEach((control) => {
+        control.addEventListener('change', (event) => applyLanguage(event.currentTarget.value));
+      });
+
+      applyLanguage('zh');
+    </script>
   </body>
 </html>

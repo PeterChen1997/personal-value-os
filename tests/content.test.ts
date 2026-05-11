@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test'
 import { profile } from '../src/content/profile'
 import { proofClusters, writingEvidence } from '../src/content/proof'
 import { researchPatterns } from '../src/content/research'
+import { pageCopy } from '../src/content/page-copy'
 import { buildAgentContext, buildLlmsText } from '../src/utils/llms'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -19,6 +20,18 @@ describe('personal value content', () => {
     expect(profile.theme.preset).toBe('signal-amber')
     expect(profile.theme.reason).toContain('builder')
     expect(profile.theme.reason.length).toBeGreaterThan(60)
+  })
+
+  it('ships bilingual page copy with Chinese as the default language', () => {
+    expect(pageCopy.defaultLanguage).toBe('zh')
+    expect(pageCopy.profile.role.zh).toContain('AI 原生')
+    expect(pageCopy.profile.role.en).toBe(profile.role)
+    expect(pageCopy.profile.currentFocus.length).toBe(profile.currentFocus.length)
+    expect(pageCopy.valuePillars.length).toBe(profile.valuePillars.length)
+    expect(pageCopy.proofClusters.length).toBe(proofClusters.length)
+    expect(pageCopy.writingEvidence.length).toBe(writingEvidence.length)
+    expect(pageCopy.userManual.length).toBe(profile.userManual.length)
+    expect(pageCopy.researchPatterns.length).toBe(researchPatterns.length)
   })
 
   it('backs every value pillar with evidence links', () => {
@@ -87,14 +100,24 @@ describe('personal value content', () => {
 
   it('ships a human landing page with machine-readable profile schema', () => {
     const page = readFileSync(join(process.cwd(), 'src/pages/index.astro'), 'utf8')
-    expect(page).toContain('证据，不是承诺')
-    expect(page).toContain('一份与我协作的说明书')
-    expect(page).toContain('给机器的视图')
+    expect(pageCopy.ui.proofTitle.zh).toContain('证据，不是承诺')
+    expect(pageCopy.ui.manualTitle.zh).toContain('一份与我协作的说明书')
+    expect(pageCopy.ui.agentTitle.zh).toContain('给机器的视图')
+    expect(page).toContain('data-i18n="ui.proofTitle"')
+    expect(page).toContain('data-i18n="ui.manualTitle"')
+    expect(page).toContain('data-i18n="ui.agentTitle"')
+    expect(page).toContain('language-switch')
+    expect(page).toContain('data-lang-control')
+    expect(page).toContain('id="lang-zh"')
+    expect(page).toContain('checked')
+    expect(page).toContain('page-copy-json')
+    expect(page).toContain('data-i18n')
     expect(page).toContain('showRippleBanner')
     expect(page).toContain('PUBLIC_SHOW_RIPPLE_BANNER')
     expect(page).toContain('theme-${profile.theme.preset}')
     expect(page).toContain('https://github.com/PeterChen1997/personal-value-os')
-    expect(page).toContain('/for-agents')
+    expect(pageCopy.ui.agentKicker.zh).toContain('/for-agents')
+    expect(page).toContain('id="for-agents"')
     expect(page).toContain('application/ld+json')
     expect(page).toContain('ProfilePage')
 
@@ -104,6 +127,9 @@ describe('personal value content', () => {
     expect(css).toContain('.theme-cobalt-blue')
     expect(css).toContain('.theme-rose-clay')
     expect(css).toContain('.theme-violet-ink')
+    expect(css).toContain('.topbar')
+    expect(css).toContain('.hero__mark')
+    expect(css).toContain('.language-switch')
   })
 
   it('uses source-data markdown as the only extracted-data source of truth', () => {
@@ -111,6 +137,7 @@ describe('personal value content', () => {
     const sourceFiles = readdirSync(sourceDir).filter(file => file.endsWith('.md'))
     expect(sourceFiles.sort()).toEqual([
       'github-proof.md',
+      'page-copy.md',
       'profile.md',
       'research-patterns.md',
       'writing-evidence.md'
@@ -122,7 +149,7 @@ describe('personal value content', () => {
       expect(() => loadSourceData(file)).not.toThrow()
     }
 
-    const contentFiles = ['src/content/profile.ts', 'src/content/proof.ts', 'src/content/research.ts']
+    const contentFiles = ['src/content/profile.ts', 'src/content/proof.ts', 'src/content/research.ts', 'src/content/page-copy.ts']
     for (const file of contentFiles) {
       const source = readFileSync(join(process.cwd(), file), 'utf8')
       expect(source).toContain('loadSourceData')
