@@ -16,6 +16,21 @@ export type UserManualItem = {
   body: string
 }
 
+export const themePresets = [
+  'signal-amber',
+  'forest-mint',
+  'cobalt-blue',
+  'rose-clay',
+  'violet-ink'
+] as const
+
+export type ThemePreset = (typeof themePresets)[number]
+
+export type ProfileTheme = {
+  preset: ThemePreset
+  reason: string
+}
+
 export type Profile = {
   name: string
   handle: string
@@ -33,6 +48,7 @@ export type Profile = {
     wants: string
   }>
   userManual: UserManualItem[]
+  theme: ProfileTheme
 }
 
 export const profile = loadSourceData<Profile>('profile.md')

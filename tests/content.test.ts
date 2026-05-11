@@ -15,6 +15,12 @@ describe('personal value content', () => {
     expect(profile.currentFocus.length).toBeGreaterThanOrEqual(3)
   })
 
+  it('defines a stable theme preset for visual differentiation', () => {
+    expect(profile.theme.preset).toBe('signal-amber')
+    expect(profile.theme.reason).toContain('builder')
+    expect(profile.theme.reason.length).toBeGreaterThan(60)
+  })
+
   it('backs every value pillar with evidence links', () => {
     for (const pillar of profile.valuePillars) {
       expect(pillar.evidence.length).toBeGreaterThan(0)

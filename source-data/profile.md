@@ -101,6 +101,10 @@ This file is the source of truth for Peter Chen's public positioning, current fo
       "title": "What not to expect",
       "body": "He is not trying to be a generic influencer or a maximalist platform builder. The edge is narrow, useful tools with a strong opinion about judgment and clarity."
     }
-  ]
+  ],
+  "theme": {
+    "preset": "signal-amber",
+    "reason": "Peter's page is a builder/editorial proof-of-work site, so amber gives the dark interface a warm signal color without making it feel like a generic SaaS dashboard."
+  }
 }
 ```
