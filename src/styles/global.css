@@ -1,5 +1,8 @@
 :root {
   color-scheme: light;
+  --accent: #e8c170;
+  --accent-2: #f3d9a2;
+  --accent-soft: rgba(232, 193, 112, 0.14);
   --ink: #191817;
   --muted: #615f5a;
   --line: #d8d0c4;
@@ -10,6 +13,36 @@
   --red: #8d3f33;
   --gold: #a36d1d;
   --shadow: 0 20px 60px rgba(29, 26, 21, 0.12);
+}
+
+.theme-signal-amber {
+  --accent: #e8c170;
+  --accent-2: #f3d9a2;
+  --accent-soft: rgba(232, 193, 112, 0.14);
+}
+
+.theme-forest-mint {
+  --accent: #77d8b2;
+  --accent-2: #b7ead8;
+  --accent-soft: rgba(119, 216, 178, 0.14);
+}
+
+.theme-cobalt-blue {
+  --accent: #7fa7ff;
+  --accent-2: #b9ccff;
+  --accent-soft: rgba(127, 167, 255, 0.14);
+}
+
+.theme-rose-clay {
+  --accent: #e9a3a3;
+  --accent-2: #f3c6bd;
+  --accent-soft: rgba(233, 163, 163, 0.14);
+}
+
+.theme-violet-ink {
+  --accent: #c3a6ff;
+  --accent-2: #ddccff;
+  --accent-soft: rgba(195, 166, 255, 0.14);
 }
 
 * {
@@ -28,6 +61,31 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+}
+
+.ripple-banner {
+  border-bottom: 1px solid var(--line);
+  background: var(--accent-soft);
+}
+
+.ripple-banner a {
+  width: min(1120px, calc(100% - 32px));
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 auto;
+  color: var(--ink);
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.ripple-banner span {
+  color: var(--muted);
+}
+
+.ripple-banner strong {
+  color: var(--gold);
 }
 
 a {

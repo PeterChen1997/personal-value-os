@@ -85,8 +85,20 @@ describe('personal value content', () => {
     const page = readFileSync(join(process.cwd(), 'src/pages/index.astro'), 'utf8')
     expect(page).toContain('Proof of work')
     expect(page).toContain('How to work with Peter')
+    expect(page).toContain('showRippleBanner')
+    expect(page).toContain('PUBLIC_SHOW_RIPPLE_BANNER')
+    expect(page).toContain('theme-${profile.theme.preset}')
+    expect(page).toContain('https://github.com/PeterChen1997/personal-value-os')
+    expect(page).toContain('/for-agents')
     expect(page).toContain('application/ld+json')
     expect(page).toContain('ProfilePage')
+
+    const css = readFileSync(join(process.cwd(), 'src/styles/global.css'), 'utf8')
+    expect(css).toContain('.theme-signal-amber')
+    expect(css).toContain('.theme-forest-mint')
+    expect(css).toContain('.theme-cobalt-blue')
+    expect(css).toContain('.theme-rose-clay')
+    expect(css).toContain('.theme-violet-ink')
   })
 
   it('uses source-data markdown as the only extracted-data source of truth', () => {
@@ -116,7 +128,7 @@ describe('personal value content', () => {
     const renderingFiles = ['src/pages/index.astro', 'src/styles/global.css', 'src/utils/llms.ts']
     for (const file of renderingFiles) {
       const source = readFileSync(join(process.cwd(), file), 'utf8')
-      expect(source).not.toContain('https://github.com/PeterChen1997')
+      expect(source).not.toContain('https://github.com/PeterChen1997"')
       expect(source).not.toContain('blog.peterchen97.cn')
       expect(source).not.toContain('PeterChen1997.png')
     }

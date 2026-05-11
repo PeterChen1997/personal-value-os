@@ -9,6 +9,9 @@ const pageDescription = `${profile.valueClaim} Explore ${profile.name}'s AI nati
 const siteUrl = 'https://peterchen1997.github.io/personal-value-os'
 const canonicalUrl = `${siteUrl}/`
 const socialImage = profile.avatarUrl
+const repoUrl = 'https://github.com/PeterChen1997/personal-value-os'
+const showRippleBanner = import.meta.env.PUBLIC_SHOW_RIPPLE_BANNER !== 'false'
+const themeClass = `theme-${profile.theme.preset}`
 const githubLink = profile.contactLinks.find(link => link.label === 'GitHub')
 const primaryUrl = profile.contactLinks.find(link => link.label === 'Blog')?.url ?? profile.contactLinks[0]?.url
 const [firstName = profile.name, ...lastNameParts] = profile.name.split(' ')
@@ -98,7 +101,15 @@ const jsonLd = {
     {profile.contactLinks.map(link => <link rel="me" href={link.url} />)}
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
-  <body>
+  <body class={themeClass}>
+    {showRippleBanner && (
+      <aside class="ripple-banner" aria-label="Open source repository">
+        <a href={repoUrl} target="_blank" rel="noreferrer">
+          <span>Ripple open source</span>
+          <strong>Fork Personal Value OS</strong>
+        </a>
+      </aside>
+    )}
     <main>
       <section class="hero" aria-labelledby="hero-title" style={`--avatar-url: url("${profile.avatarUrl}")`}>
         <div class="hero__image" aria-hidden="true"></div>
@@ -250,6 +261,18 @@ const jsonLd = {
               <a href={pattern.sourceUrl} target="_blank">{pattern.source}</a>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section class="section agent" id="for-agents" aria-labelledby="agent-title">
+        <div class="section-heading">
+          <p class="eyebrow">05 · /for-agents</p>
+          <h2 id="agent-title">Machine-readable context</h2>
+        </div>
+        <div class="agent-grid">
+          <a href="/personal-value-os/llms.txt">/llms.txt</a>
+          <a href="/personal-value-os/agent-context.md">/agent-context.md</a>
+          <a href={repoUrl} target="_blank" rel="noreferrer">GitHub repo</a>
         </div>
       </section>
     </main>
