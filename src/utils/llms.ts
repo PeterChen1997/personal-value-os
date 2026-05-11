@@ -63,6 +63,11 @@ ${writing}
 
 ${profile.userManual.map(item => `- ${item.title}: ${item.body}`).join('\n')}
 
+## Theme Preset
+
+- Preset: ${profile.theme.preset}
+- Reason: ${profile.theme.reason}
+
 ## Source Patterns
 
 ${researchPatterns.map(pattern => `- ${pattern.label}: ${pattern.useInThisProject}`).join('\n')}
@@ -70,6 +75,8 @@ ${researchPatterns.map(pattern => `- ${pattern.label}: ${pattern.useInThisProjec
 ## Adaptation Warning
 
 Do not copy ${profile.name}'s identity, project story, or exact narrative. Use this repo as a structure for finding your own primary audience, proof categories, value claim, and evidence links.
+
+Read README.md first before adapting this repo for another person. Ask for role, short bio, primary audience, Blog URL, GitHub URL, proof sources, contact links, theme preference, and private information boundaries before editing source data.
 `
 }
 
@@ -82,6 +89,7 @@ This project contains a concrete ${profile.name} example plus guidelines and pro
 
 ## Core Files
 
+- [README.md](${repoUrl ? `${repoUrl}/blob/main/README.md` : 'README.md'}): Start here before adapting the repo for another person.
 - [Agent context](${sitePath}/agent-context.md): Machine-readable summary of identity, focus, proof, writing evidence, and collaboration notes.
 - [Landing page](${sitePath}/): Human-readable personal value landing page.
 ${repoUrl ? `- [GitHub repository](${repoUrl}): Source code, structured content, guidelines, and project skills.` : ''}

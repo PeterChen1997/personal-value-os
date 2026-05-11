@@ -57,10 +57,14 @@ describe('personal value content', () => {
     expect(context).toContain('AI native product engineer')
     expect(context).toContain('Do not copy Peter')
     expect(context).toContain('https://github.com/PeterChen1997')
+    expect(context).toContain('Theme Preset')
+    expect(context).toContain(profile.theme.preset)
+    expect(context).toContain('Read README.md first')
 
     const llms = buildLlmsText()
     expect(llms).toContain('# Personal Value OS')
     expect(llms).toContain('[Agent context]')
+    expect(llms).toContain('README.md')
   })
 
   it('ships adaptation guidelines and project-level skills', () => {
