@@ -425,20 +425,28 @@ h1 {
   width: 100%;
   max-width: none;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(360px, 1.15fr);
   gap: 1px;
   padding: 0;
   background: var(--line-2);
   border-block: 1px solid var(--line-2);
 }
 
-.stats-band div {
+.stats-card {
   min-height: 148px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 28px max(20px, calc((100vw - 1180px) / 2));
+  padding: 28px clamp(28px, 5vw, 72px);
   background: var(--bg-3);
+}
+
+.stats-card:first-child {
+  padding-left: max(28px, calc((100vw - 1180px) / 2));
+}
+
+.stats-card:last-child {
+  padding-right: max(28px, calc((100vw - 1180px) / 2));
 }
 
 .stats-band strong {
@@ -448,11 +456,43 @@ h1 {
   line-height: 1;
 }
 
-.stats-band span {
+.stats-band span,
+.stats-label {
   margin-top: 10px;
   color: var(--ink-3);
   font-family: var(--mono);
   font-size: 0.78rem;
+}
+
+.stats-card--stack {
+  gap: 16px;
+  justify-content: center;
+}
+
+.stats-card--stack .stats-label {
+  margin-top: 0;
+}
+
+.stack-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  max-width: 500px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stack-list li {
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+  border-radius: 999px;
+  background: var(--accent-soft);
+  padding: 8px 11px;
+  color: var(--accent-2);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .cluster {

@@ -17,6 +17,7 @@ const themeClass = `theme-${profile.theme.preset}`
 const githubLink = profile.contactLinks.find(link => link.label === 'GitHub')
 const blogLink = profile.contactLinks.find(link => link.label === 'Blog')
 const primaryUrl = blogLink?.url ?? profile.contactLinks[0]?.url
+const dominantLanguages = githubStats.dominantLanguages.slice(0, 5)
 const [firstName = profile.name, ...lastNameParts] = profile.name.split(' ')
 const lastName = lastNameParts.join(' ')
 const keywords = [
@@ -191,17 +192,19 @@ const jsonForInlineScript = JSON.stringify(copy).replace(/</g, '\\u003c')
       </section>
 
       <section class="section stats-band" aria-label="GitHub evidence summary">
-        <div>
+        <div class="stats-card">
           <strong>{githubStats.publicRepos}</strong>
           <span data-i18n="ui.publicRepos">{copy.ui.publicRepos.zh}</span>
         </div>
-        <div>
+        <div class="stats-card">
           <strong>{githubStats.activeOriginalRepos}</strong>
           <span data-i18n="ui.activeRepos">{copy.ui.activeRepos.zh}</span>
         </div>
-        <div>
-          <strong>{githubStats.dominantLanguages.slice(0, 5).join(' / ')}</strong>
-          <span data-i18n="ui.dominantStack">{copy.ui.dominantStack.zh}</span>
+        <div class="stats-card stats-card--stack">
+          <span class="stats-label" data-i18n="ui.dominantStack">{copy.ui.dominantStack.zh}</span>
+          <ul class="stack-list" aria-label="Dominant public stack">
+            {dominantLanguages.map(language => <li>{language}</li>)}
+          </ul>
         </div>
       </section>
 

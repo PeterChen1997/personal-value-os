@@ -112,6 +112,8 @@ describe('personal value content', () => {
     expect(page).toContain('checked')
     expect(page).toContain('page-copy-json')
     expect(page).toContain('data-i18n')
+    expect(page).toContain('dominantLanguages')
+    expect(page).toContain('stack-list')
     expect(page).toContain('showRippleBanner')
     expect(page).toContain('PUBLIC_SHOW_RIPPLE_BANNER')
     expect(page).toContain('theme-${profile.theme.preset}')
@@ -130,6 +132,8 @@ describe('personal value content', () => {
     expect(css).toContain('.topbar')
     expect(css).toContain('.hero__mark')
     expect(css).toContain('.language-switch')
+    expect(css).toContain('.stats-card--stack')
+    expect(css).toContain('.stack-list')
   })
 
   it('uses source-data markdown as the only extracted-data source of truth', () => {
